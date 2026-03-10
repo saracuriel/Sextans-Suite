@@ -1,4 +1,131 @@
+# Sextans Fix Installation
+
+Sextans Fix is the FAIR data record component of the Sextans Suite.  It can be run independently of Sextans Sight, and is intended to be deployed on a separate network segment with appropriate security for handling (anonymized) clinical records.
+
+It consists of 4 "dockreized" components, all of them _mandatory_, but with different requirements for activation.
+
+- GraphDB - holds the RDF-formatted record data
+- Transformation Daemon - this is the orchestrator for the RDF transformation
+- Yarrrml-rdfizer - this executes the CSV to RDF transformation using the CARE-SM models
+- CARE-SM - this does enrichment and quality control over the CSV data prior to transformation
+
+
+
+## CONTENTS
+
+- [Installation requirements](#requirements)
+- [Downloading Fix](#downloading)
+- [Installing Sight](#installing)
+- [Quick Start - Data Transformations](#testing)
+
+<a name="requirements"></a>
+
+## Requirements
+
+To use Sextans Fix you `must` meet the following requirements.
+
+**User requirements (Person who is deploying this solution)**
+
+- Basic knowledge about Docker​
+- Basic GitHub knowledge​
+
+**System requirements​ (Machine where this solution is being deployed)**
+
+- Docker engine ​
+- Docker-compose application​
+
+---
+
+<a name="downloading"></a>
+
+## Downloading
+
+#### Sextans Fix
+
+To get Sextans Fix clone this repository to your machine.
+
+```sh
+git clone https://github.com/wilkinsonlab/Sextans-Suite.git
+```
+
+---
+
+
+
+## Installing
+
+<a name="installing"></a>
+
+## Preparing for Installation
+
+At the beginning of the installation process you are asked three questions:
+
+### A Prefix for your installation
+The prefix is used as a "namespace" to isolate indepdent Fix installations from one another.  This allows you to run multiple CARE-SM Data servers on the same machine.  The prefix is used for the docker network, docker volumes, and appears in the configuration files and docker-compose yaml files.  This can be any set of letter/number characters.  Please do not use punctuation characters.  e.g. 'euronmd1'  We will use *'ACME'* for the remainder of this document.
+
+### Port for your GraphDB
+This is the port that will be used by the GraphDB database.  This is validated against a list of "banned" ports (ports that are likely to be used by other software on your system).  It is a good idea to stay in the range of ~4000-10000.  By detault, this port is disabled after installation, so your graphdb cannot be accessed.  You will need to enable it, at least once, to login to GraphDB's web page and create a secure user for your Sight server (and change the login for the Admin user!).  This port does NOT need to be enabled for the regular operation of Sight, and should be disabled when not needed.
+
+### Port for the transformation daemon
+This is the port that will listen for requests to trigger a data transformation. It responds only to an "empty" HTTP GET request, does not allow any parameters, and does not process the HTTP request in any way.
+
+
+## Installing Sextans Fix
+
+Once you have completed the "Downloading" section of this tutorial, and you have prepared your answers to the questions, cd into the `/Fix-install/` folder and run the instaler.
+
+```
+bash ./install-sextans-fix.sh
+```
+
+This script will bootstrap GraphDB.  It creates a databases in GraphDB called *ACME-sextans-fix*. This is the database that you will need to secure after installation.
+
+### If you abort installation before it completes...
+
+This can (and probably will) leave you in a state that needs some careful attention.  In particular, find any graph-db Docker Volumes *_that have your PREFIX_* and remove them `docker volume rm ACME-graph-db`.  If it will not delete, it will be due to the existence of a docker container that uses it.  You can safely delete this docker container also.  `docker rm AJDIRDjdsfhwe83hewfewkw5`.  Again, make sure you are deleting the right things!
+
+
+### The folder with your final server configuration
+
+The installer will create a sub-folder `ACME-Sextans-Fix` underneath the folder where you ran your installation. This folder contains all of your server configuration files.  You can copy this folder anywhere on your system, e.g. to keep your servers all in one folder outside of your GitHub copy.  Inside that folder is a customized docker-compose file (docker-compose-ACME.yml) for your deployment.  So for example, you would issue the commands:
+
+```
+
+cp -r ACME-Sextans-Fix ~/SERVERS/
+cd ~/SERVERS/ACME-Sextans-Fix
+docker-compose -f docker-compose-ACME.yml up
+
+```
+
+Your Fix server is now running at whatever port you selected.
+
+## Securing your Sextans Fix server
+
+In principle, none of these components will have any internet-facing interfaces; nevertheless 
+you should secure GraphDB.
+
+These are the default login details and locations:
+
+#### GraphDB
+
+| Service name | Local deployment                                | Production deployment |
+| ------------ | ----------------------------------------------- | --------------------- |
+| GraphDB      | [http://localhost:7200](http://localhost:7200/) | SHOULD NOT BE VISIBLE |
+
+
+| Username | Password |
+| -------- | -------- |
+| `admin`  | `root`   |
+
+1.  Change the admin password
+2.  Create a new user with read/write permissions on the *ACME-sextans-fix* database
+3.  Ensure that secured access is switched ON
+
+
+
+
 # CARE-SM Sextans Fix Quick Start!
+<a name="testing"></a>
 ---
 
 **Sextans Fix** is fully compatible with the **Clinical And Registry Entries Semantic Model (CARE-SM)**. This software implements a workflow that uses **CSV** and **YARRRML** templates to define the RDF shape and perform the transformation.

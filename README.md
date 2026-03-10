@@ -13,4 +13,4 @@ Sextans Sight creates a Metadata server following the FAIR Data Point specificat
 
 [Installing Sextans Sight](./Sextans/Sight-install/)
 
-Installing Sextans Fix
+[Installing Sextans Fix](./Sextans/Fix-install/)

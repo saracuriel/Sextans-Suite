@@ -12,7 +12,7 @@ services:
       - {PREFIX}-default
 
       
-  cde-box-daemon:
+  transformation-daemon:
     image:  fairdatasystems/cdeb:2026-02-11    # to use the CARE-SM models with teh care-sm-toolkit
     environment:
       GraphDB_User: ${GraphDB_User}

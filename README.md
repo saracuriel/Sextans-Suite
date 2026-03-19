@@ -26,3 +26,7 @@ Sextans Fix is an optional second component that includes software for executing
 [Installing Sextans Sight](./Sextans/Sight-install/)
 
 [Installing Sextans Fix](./Sextans/Fix-install/)
+
+## Acknowledgement
+
+This project has been partially supported by funds received from the European Rare Disease Research Alliance [ERDERA](https://erdera.org/), via the European Union’s Horizon Europe research and innovation programme under grant agreement N°101156595. Views and opinions expressed are those of the author(s) only and do not necessarily reflect those of the European Union or any other granting authority, who cannot be held responsible for them.

@@ -15,7 +15,10 @@ It consists of 4 "dockreized" components, all of them _mandatory_ and all of the
 - [Installation requirements](#requirements)
 - [Downloading Sight](#downloading)
 - [Installing Sight](#installing)
-- [Testing your installation](#testing)
+- [Configuring for ERDERA](#configuring)
+- [Securing your Server](#securing)
+- [Branding and Personalizing](#branding)
+- [Onboarding to the ERDERA Virtual Portal](#onboarding)
 
 <a name="requirements"></a>
 
@@ -106,6 +109,28 @@ docker-compose -f docker-compose-ACME.yml up
 
 Your Sight server is now running at whatever port you selected.
 
+<a name="configuring"></a>
+
+## Configuring for ERDERA
+
+There is a docker image that will auto-configure your Sight server to be compliant with ERDERA metadata expectations.
+
+    1. with the Sight server still running....
+    2. issue the following command (change the port to whatever you set the FDP port to be during installation)
+
+```
+docker run --rm --network host -it \
+  -e FDP_PORT=8000 \
+  -e FDP_EMAIL=albert.einstein@example.com \
+  -e FDP_PASSWORD=password \
+markw/erdera-fdp-config:0.0.1
+```
+You will see a lot of information flowing on the screen.  You can probably ignore it unless there is a crash.
+
+__Nota Bene: This script can only be run one time!__  Please do not run it again unless you really know what you're doing.
+
+<a name="securing"></a>
+
 ## Securing your Sextans Sight server
 
 There are two components that you need to secure:  GraphDB and the FAIR Data Point Client.
@@ -149,9 +174,9 @@ The default FAIR Data Point Client Administrator credentials are:
 
 Note that you need the Administrator credentials to login to the FAIR Data Point API and get a token to do any API-based operation.
 
+<a name="branding"></a>
 
-## Configuring your Sight server
-
+## Branding your Sight server
 
 #### Update the colors and logo
 
@@ -162,8 +187,9 @@ Note that you need the Administrator credentials to login to the FAIR Data Point
 - if you have a preferred favicon, replace the one in that folder with your preferred one.
 - now go back to the ACME-Sextans-Sight folder and bring the docker-compose back up. Your FDP client will now be customized with your preferred icons and colors
 
+<a name="onboarding"></a>
 
-#### Register with the central index
+#### Register with the ERDERA Virtual Portal central index
 
 To register yourself with the central index of FAIR Data Points (e.g. the ERDERA FDP Index) you need to edit one file
 

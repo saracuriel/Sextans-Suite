@@ -19,7 +19,7 @@ function ctrl_c() {
         docker rm bootstrap_sight-graphdb-1
 
         rm "${CWD}/config/docker-compose-${P}.yml"
-        rm "${CWD}/bootstrap/docker-compose-${P}.yml"
+        rm "${CWD}/bootstrap_sight/docker-compose-${P}.yml"
         rm "${CWD}/config/fdp/application-${P}.yml"
 
         exit 2
@@ -71,7 +71,8 @@ if [ -z $P ]; then
 fi
 
 
-
+echo ""
+echo ""
 echo "The next question asks for your permanent GUID."
 echo "If you have a permanent identifier, please be sure that all proxies and redirects are alredy setup and working. "
 echo "If you have a proxy, you must know the port that the proxy is pointing to. "
@@ -80,7 +81,9 @@ echo "please feel free to use a localhost:PORTXXXX address to answer this questi
 echo "IN THIS CASE, NOTE: PORTXXXX must match your answer to the 'port for your Sight Server', in the next question!!"
 read -p "Your permanent GUID (e.g. https://w3id.org/my-organization): " uri
 
-
+echo ""
+echo ""
+echo ""
 # FDP_PORT handling
 if [ -z "$FDP_PORT" ]; then
   echo "If you have a permanent identifier, you will already have an SSL proxy and redirect. "
@@ -104,6 +107,11 @@ if is_banned_port "$FDP_PORT"; then
   echo "Please choose a different port. Safe common options include 3000, 4000, 5000, 7070, 8080, 8000, or 9000."
   exit 1
 fi
+
+
+echo ""
+echo ""
+echo ""
 
 # GDB_PORT handling
 if [ -z "$GDB_PORT" ]; then
@@ -135,8 +143,8 @@ export TMPDIR=$HOME/tmp
 # PREFIX needed by the main.py script and docker composes
 export FDP_PREFIX=$P
 
-docker network rm bootstrap_sight__default
-# this next line might throw an error if there was never a previous installation - that's fine!
+docker network rm bootstrap_sight_default
+# this next line might throw an error if there was never a previous installation - thats fine!
 docker ps -a | egrep -oh "${P}-Sextans.*" | xargs docker rm
 docker rm -f  bootstrap_sight_graphdb_1 config_fdp_1 config_fdp_client_1
 docker volume remove -f "${P}-graphdb ${P}-fdp-client-assets ${P}-fdp-client-css ${P}-fdp-client-scss ${P}-fdp-server ${P}-mongo-data ${P}-mongo-init"
@@ -152,7 +160,6 @@ docker volume create "${P}-mongo-init"
 echo ""
 echo ""
 echo -e "${GREEN}Creating GraphDB and bootstrapping it - this will take about a minute"
-echo -e "Go make a nice cup of tea and then come back to check on progress"
 echo -e "${NC}"
 echo ""
 
@@ -243,7 +250,7 @@ echo -e "${GREEN}DONE!"
 echo ""
 echo -e "${GREEN}Please now move into the ${NC} ./${P}-Sextans-Sight/ ${GREEN} folder where the full version of the docker-compose-{P}.yml file lives."
 echo ""
-echo -e "${GREEN}To start your full Sextans Sight server, cd to that folder or move it elsewhere and and type:  "
+echo -e "${GREEN}To start your full Sextans Sight server, cd to that folder or move it elsewhere and type:  "
 echo -e "docker-compose -f docker-compose-${P}.yml up -d ${NC}"
 echo ""
 

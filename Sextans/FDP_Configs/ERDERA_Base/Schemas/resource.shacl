@@ -46,10 +46,10 @@
   ], 
   [
     sh:targetClass ejp:VPConnection ;
-    sh:name "Indexed by EJP VP? (indexd by default, so only set this if you want to hide this data)" ;
+    sh:name "Visible on the VP? (Discoverable makes it appear in searches on the Portal)" ;
     sh:path ejp:vpConnection ;
     sh:nodeKind sh:IRI ;
-    sh:in (<https://w3id.org/ejp-rd/vocabulary#VPInvisible> <https://w3id.org/ejp-rd/vocabulary#VPDiscoverable>) ;
+    sh:in (<https://w3id.org/ejp-rd/vocabulary#VPDiscoverable>) ;
     sh:minCount 0 ;
     sh:maxCount 1 ;
     sh:order 0 ;
@@ -108,7 +108,7 @@
   ], 
   [
     sh:path dct:license ;
-    sh:name "License (https://w3id.org/ejp-rd/resources/licenses/v1.0/)" ;
+    sh:name "License (e.g. https://w3id.org/ejp-rd/resources/licenses/v1.0/)" ;
     sh:nodeKind sh:IRI ;
     sh:maxCount 1 ;
     sh:minCount 1 ;  # updated
@@ -133,7 +133,7 @@
   ] , 
   [  # this is a new section, and mandatory
     sh:path dcat:contactPoint ;
-    sh:name "Contact Information (should have a contact email)" ;
+    sh:name "Contact Information (a website with contact information)" ;
     sh:node :AgentShape ;
     sh:minCount 1 ;
     sh:maxCount 1 ;

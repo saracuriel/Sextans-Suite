@@ -2,7 +2,14 @@ require 'rest-client'
 require 'json'
 require 'fdp_client'
 
-base_url = 'http://localhost:8000'
+puts 'This is the configuration script for the ERDERA FDP base configuration. It will overwrite the existing Resource, Dataset, and Data Service schemas with new definitions specific to ERDERA, and it will create new Biobank, Patient Registry, and Guideline schemas. It will also create new resources for the Biobank, Patient Registry, Guideline, and two Data Services, and it will connect them to the Catalog and Distribution resources. Finally, it will break the connection between the top level FAIR Data Point resource and the Data Service by removing the Data Service schema from its list of schemas. '
+puts 'This should be run immediately after installing Sextans Sight, and while the default user (albert.einstein) and password have not been modified.'
+puts 'You should docker-compose up the Sextans Sight to make the FDP acgtive. It will configure the FDP that is running on localhost.'
+puts 'During your Sextans Sight installation, you will have set the port for the FDP.  What port did you choose?'
+puts 'please enter the port number here (e.g. 8000):'
+port = gets.chomp
+
+base_url = "http://localhost:#{port}" # change this if your FDP is running on a different host or port
 email    = 'albert.einstein@example.com' # change this
 password = 'password' # change this
 schema_base = './Schemas'
@@ -75,11 +82,12 @@ begin
     schema.description = 'A dataset schema definition for ERDERA, based on the generic Dataset shape but with added constraints and properties specific to ERDERA use cases'
     schema.prefix = 'dataset'
     schema.label = 'ERDERA Dataset'
+    schema.definition = File.read("#{schema_base}/dataset.shacl")
     warn "trying to overwrite existing schema with new name: #{schema.name} and same UUID: #{schema.uuid}"
     schema.write_to_fdp(client: fdp)
   end
-rescue StandardError
-  warn 'ignoring error'
+rescue StandardError => e
+  abort e.inspect
 end
 
 uuids = fdp.list_current_schemas

@@ -14,7 +14,7 @@ function ctrl_c() {
         docker network rm bootstrap_fix_default bootstrap_graphdb_net
         docker rmi -f bootstrap_fix_graph_db_repo_manager:latest
 
-        rm "${CWD}/bootstrap/docker-compose-${P}.yml"
+        rm "${CWD}/bootstrap_fix/docker-compose-${P}.yml"
 
         exit 2
 }
@@ -60,7 +60,9 @@ if [ -z $P ]; then
   fi
 fi
 
-
+echo ""
+echo ""
+echo ""
 # GDB_PORT handling
 if [ -z "$GDB_PORT" ]; then
   read -p "Enter the port where your GraphDB will serve (e.g. 7200): " GDB_PORT
@@ -83,7 +85,9 @@ if is_banned_port "$GDB_PORT"; then
   exit 1
 fi
 
-
+echo ""
+echo ""
+echo ""
 if [ -z $RDF_TRIGGER ]; then
   read -p "Enter the port that will trigger your CSV to CARE-SM Data transformation (e.g. 4567): " RDF_TRIGGER
   if [ -z $RDF_TRIGGER ]; then
@@ -120,7 +124,6 @@ docker volume create "${P}-graphdb"
 echo ""
 echo ""
 echo -e "${GREEN}Creating GraphDB and bootstrapping it - this will take about a minute"
-echo -e "Go make a nice cup of tea and then come back to check on progress"
 echo -e "${NC}"
 echo ""
 

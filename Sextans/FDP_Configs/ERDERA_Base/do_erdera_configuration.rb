@@ -5,13 +5,23 @@ require 'fdp_client'
 puts 'This is the configuration script for the ERDERA FDP base configuration. It will overwrite the existing Resource, Dataset, and Data Service schemas with new definitions specific to ERDERA, and it will create new Biobank, Patient Registry, and Guideline schemas. It will also create new resources for the Biobank, Patient Registry, Guideline, and two Data Services, and it will connect them to the Catalog and Distribution resources. Finally, it will break the connection between the top level FAIR Data Point resource and the Data Service by removing the Data Service schema from its list of schemas. '
 puts 'This should be run immediately after installing Sextans Sight, and while the default user (albert.einstein) and password have not been modified.'
 puts 'You should docker-compose up the Sextans Sight to make the FDP acgtive. It will configure the FDP that is running on localhost.'
-puts 'During your Sextans Sight installation, you will have set the port for the FDP.  What port did you choose?'
-puts 'please enter the port number here (e.g. 8000):'
-port = gets.chomp
+puts 'During your Sextans Sight installation, you will have set the port for the FDP. Put that port into the docker run command'
+# puts 'please enter the port number here (e.g. 8000):'
+# port = gets.chomp
+
+# At the top, after require statements
+port = ENV['FDP_PORT'] || begin
+  puts 'What port did you choose for the FDP? (e.g. 8000):'
+  gets.chomp
+end
+
+email = ENV['FDP_EMAIL'] || 'albert.einstein@example.com'
+password = ENV['FDP_PASSWORD'] || 'password'
+abort 'must provide a port' unless port
 
 base_url = "http://localhost:#{port}" # change this if your FDP is running on a different host or port
-email    = 'albert.einstein@example.com' # change this
-password = 'password' # change this
+# email    = 'albert.einstein@example.com' # change this
+# password = 'password' # change this
 schema_base = './Schemas'
 
 fdp = FDP::Client.new(base_url: base_url, email: email, password: password)

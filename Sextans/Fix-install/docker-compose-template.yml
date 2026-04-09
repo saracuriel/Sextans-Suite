@@ -50,36 +50,9 @@ services:
     networks:
       - {PREFIX}-default
 
-  # beacon_count:
-  #   image: fairdatasystems/beacon:2026-02-11
-  #   hostname: beacon_count
-  #   restart: always
-  #   ports:
-  #     - "{BEACON_PORT}:8000"
-  #   environment:
-  #     - TRIPLESTORE_URL=${DATA_SPARQL_ENDPOINT}
-  #     - TRIPLESTORE_USERNAME=${GraphDB_User}
-  #     - TRIPLESTORE_PASSWORD=${GraphDB_Pass}
-  #     - FILTER_SEX=True
-  #     - FILTER_DISEASE=True
-  #     - FILTER_SYMPTOM=True
-  #     - FILTER_GENE_VARIANT=True
-  #     - FILTER_BIRTHYEAR=True
-  #     - FILTER_AGE_SYMPTOM_ONSET=True
-  #     - FILTER_AGE_DIAGNOSIS=True
-  #     - URL_SERVER=http://my.server.org/beaconAPI/  # DO NOT include the path e.g. /individuals
-  #   networks:
-  #     - {PREFIX}-default
-
 
 volumes:
   {PREFIX}-graphdb:
-    external: true
-  {PREFIX}-mongo-data:
-    external: true
-  {PREFIX}-mongo-init:
-    external: true
-  {PREFIX}-fdp-server:
     external: true
 
 networks:

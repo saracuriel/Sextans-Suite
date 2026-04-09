@@ -234,9 +234,9 @@ docker compose -f "${CWD}/bootstrap_sight/docker-compose-${P}.yml" down
 docker compose -f "${CWD}/config/docker-compose-${P}.yml" rm -s -f
 docker compose -f "${CWD}/bootstrap_sight/docker-compose-${P}.yml" rm -s -f
 docker network rm bootstrap_sight_default bootstrap_sight_graphdb_net
-docker stop bootstrap_sight-graphdb-1
-docker rm bootstrap_sight-graphdb-1
-docker rmi -f bootstrap_sight-graph_db_repo_manager:latest
+docker stop bootstrap_sight_graphdb_1
+docker rm bootstrap_sight_graphdb_1
+docker rmi -f bootstrap_sight_graph_db_repo_manager:latest
 
 rm "${CWD}/config/docker-compose-${P}.yml"
 rm "${CWD}/bootstrap_sight/docker-compose-${P}.yml"

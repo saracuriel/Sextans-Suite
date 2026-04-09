@@ -147,12 +147,9 @@ docker network rm bootstrap_sight_default
 # this next line might throw an error if there was never a previous installation - thats fine!
 docker ps -a | egrep -oh "${P}-Sextans.*" | xargs docker rm
 docker rm -f  bootstrap_sight_graphdb_1 config_fdp_1 config_fdp_client_1
-docker volume remove -f "${P}-graphdb ${P}-fdp-client-assets ${P}-fdp-client-css ${P}-fdp-client-scss ${P}-fdp-server ${P}-mongo-data ${P}-mongo-init"
+docker volume remove -f "${P}-graphdb  ${P}-mongo-data ${P}-mongo-init"
 
 docker volume create "${P}-graphdb"
-docker volume create "${P}-sight-server"
-docker volume create "${P}-sight-client-assets"
-docker volume create "${P}-sight-client-scss"
 docker volume create "${P}-mongo-data"
 docker volume create "${P}-mongo-init"
 
